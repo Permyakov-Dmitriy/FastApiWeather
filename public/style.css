@@ -1,0 +1,164 @@
+body{
+    background-color: rgb(38, 35, 35);
+    color: white;
+}
+
+h1{
+    margin: 0;
+    text-transform: capitalize;
+}
+
+.main{
+    background-color: #3e3636;
+    width: 600px;
+    height: 450px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    top: 100px;
+}
+
+.wrapper{
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    gap: 15px;
+}
+
+.showWeather{
+    width: 100%;
+    height: 35vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.showWeather p{
+    font-size: 30px;
+    margin: 0;
+}
+
+.showWeather i{
+    font-size: 160px;
+}
+
+.ui{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ui input{
+    display: block;
+    width: 30%;
+    padding: 0 15px;
+    margin: 10px 0 15px;
+    border-width: 0;
+    line-height: 40px;
+    border-radius: 20px;
+    color: white;
+    background: rgba(255, 255, 255, .2);
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+}
+
+input[type="submit"] {
+    background: #605050;
+    box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+ }
+
+input[type="submit"]:hover {
+    background: #423636;
+}
+
+input:focus-visible{
+    outline: none;
+    outline-offset: 0px;
+}
+
+span{
+    color: rgb(3 190 255);
+}
+
+.spin{
+    animation: 2s spin infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+      }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.flex{
+    display: flex;
+    gap: 20px;
+}
+
+.temp_icon{
+    font-size: 40px !important;
+}
+
+.temp_icon_small{
+    font-size: 30px !important;
+}
+
+p.p\:nth {
+    font-size: 25px;
+}
+
+.infoWeather{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.history{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: absolute;
+    top: 570px;
+}
+
+.item-history{
+    width: 600px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #4d4747;
+    display: flex;
+    padding-left: 30px;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.item-history > p{
+    font-size: 22px;
+}
+
+.item-history > i{
+    font-size: 30px;
+}
+
+.item-history > h1{
+    font-size: 25px;
+    transition: 0.3s;
+}
+
+.item-history > h1:hover{
+    color: rgb(3 190 255);
+    cursor: pointer;
+}
