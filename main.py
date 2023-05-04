@@ -56,7 +56,7 @@ def sendHome(data = Body()):
     return asyncio.run(main(city))
 
 
-@app.get('/getToken')
+@app.get('/getHistory')
 def get_token(token):
     query = db.query(History).filter(History.token == token).order_by(desc(History.id)).limit(4).all()
 

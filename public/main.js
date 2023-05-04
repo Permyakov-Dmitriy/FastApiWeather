@@ -104,7 +104,7 @@ $(document).ready(function () {
     })
 
     $.ajax({
-        url: `/getToken?token=${localStorage.getItem('weatherToken')}`,
+        url: `/getHistory?token=${localStorage.getItem('weatherToken')}`,
         type: 'GET',
 
         success: function (res) {
