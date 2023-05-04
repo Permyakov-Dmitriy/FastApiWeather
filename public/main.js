@@ -1,31 +1,33 @@
-function genIcon(text, slct) {
+function genIcon(text) {
+    let res = ''
     switch (text) {
         case 'Туман':
-            $(slct).html(`<i class="bi weather-icon bi-cloud-fog"></i>`)
+            res = `<i class="bi weather-icon bi-cloud-fog"></i>`
             break;
         case 'Облака':
-            $(slct).html(`<i class="bi weather-icon bi-clouds"></i>`)
+            res = `<i class="bi weather-icon bi-clouds"></i>`
             break
         case "Прозрачный":
-            $(slct).html(`<i class="bi weather-icon bi-cloud-slash"></i>`)
+            res = `<i class="bi weather-icon bi-cloud-slash"></i>`
             break
         case "Дождь":
-            $(slct).html(`<i class="bi weather-icon bi-cloud-rain"></i>`)
+            res = `<i class="bi weather-icon bi-cloud-rain"></i>`
             break
         case "Снег":
-            $(slct).html(`<i class="bi weather-icon bi-cloud-snow"></i>`)
+            res = `<i class="bi weather-icon bi-cloud-snow"></i>`
             break
         default:
-            $(slct).html(`<i class="bi weather-icon bi-thermometer"></i>`)
+            res = `<i class="bi weather-icon bi-thermometer"></i>`
             break;
     }
+    return res
 }
 
-let addHistory = (city, temp, wind) => {
-    $('.history').prepend(`
+let addHistory = (city, temp, wind, icon) => {
+    $('.history').append(`
             <div class="item-history">
                 <h1 class='history-h1'>${city}</h1>
-                <i class='his-icon></i>
+                ${icon}
                 <p>Температура: ${temp}C˚</p>
                 <p>Ветер: ${wind}м/с</p>
             </div>
@@ -47,7 +49,7 @@ $('input[type="submit"]').click(function(){
         success: function(res) {
             $('.icon').removeClass('spin')
 
-            genIcon(res['Погода'], '.icon')
+            $('.icon').html(genIcon(res['Погода']))
             
             $('#temp').html(`
             <div class='infoWeather'>
@@ -109,8 +111,7 @@ $(document).ready(function () {
 
         success: function (res) {
             for (const it of res.history) {
-                addHistory(it.city, it.temp, it.wind)
-                genIcon(it.weather, '.his-icon')
+                addHistory(it.city, it.temp, it.wind, genIcon(it.weather))
             }
         }
     })
