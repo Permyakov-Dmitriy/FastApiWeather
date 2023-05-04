@@ -17,6 +17,7 @@ class History(Base):
     weather = Column(String)
     temp = Column(Integer)
     wind = Column(Float)
+    token = Column(String)
 
 
 class User(Base):

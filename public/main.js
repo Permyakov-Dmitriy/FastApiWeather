@@ -1,3 +1,37 @@
+function genIcon(text, slct) {
+    switch (text) {
+        case 'Туман':
+            $(slct).html(`<i class="bi weather-icon bi-cloud-fog"></i>`)
+            break;
+        case 'Облака':
+            $(slct).html(`<i class="bi weather-icon bi-clouds"></i>`)
+            break
+        case "Прозрачный":
+            $(slct).html(`<i class="bi weather-icon bi-cloud-slash"></i>`)
+            break
+        case "Дождь":
+            $(slct).html(`<i class="bi weather-icon bi-cloud-rain"></i>`)
+            break
+        case "Снег":
+            $(slct).html(`<i class="bi weather-icon bi-cloud-snow"></i>`)
+            break
+        default:
+            $(slct).html(`<i class="bi weather-icon bi-thermometer"></i>`)
+            break;
+    }
+}
+
+let addHistory = (city, temp, wind) => {
+    $('.history').prepend(`
+            <div class="item-history">
+                <h1 class='history-h1'>${city}</h1>
+                <i class='his-icon></i>
+                <p>Температура: ${temp}C˚</p>
+                <p>Ветер: ${wind}м/с</p>
+            </div>
+        `)
+}
+
 $('input[type="submit"]').click(function(){
     $.ajax({
         url: '/sendWeather',
@@ -12,26 +46,9 @@ $('input[type="submit"]').click(function(){
 
         success: function(res) {
             $('.icon').removeClass('spin')
-            switch (res['Погода']) {
-                case 'Туман':
-                    $('.icon').html(`<i class="bi weather-icon bi-cloud-fog"></i>`)
-                    break;
-                case 'Облака':
-                    $('.icon').html(`<i class="bi weather-icon bi-clouds"></i>`)
-                    break
-                case "Прозрачный":
-                    $('.icon').html(`<i class="bi weather-icon bi-cloud-slash"></i>`)
-                    break
-                case "Дождь":
-                    $('.icon').html(`<i class="bi weather-icon bi-cloud-rain"></i>`)
-                    break
-                case "Снег":
-                    $('.icon').html(`<i class="bi weather-icon bi-cloud-snow"></i>`)
-                    break
-                default:
-                    $('.icon').html(`<i class="bi weather-icon bi-thermometer"></i>`)
-                    break;
-            }
+
+            genIcon(res['Погода'], '.icon')
+            
             $('#temp').html(`
             <div class='infoWeather'>
                     <div class='flex'><i class="bi bi-thermometer-half temp_icon"></i> <p>${res['Температура']}C˚</p></div>
@@ -59,7 +76,8 @@ $('input[type="submit"]').click(function(){
                     'city': $('input[type="text"]').val(),
                     'weather': res['Погода'],
                     'temp': res['Температура'],
-                    'wind': res['Ветер']
+                    'wind': res['Ветер'],
+                    'token': localStorage.getItem('weatherToken')
                 }
             })
             
@@ -81,6 +99,18 @@ $(document).ready(function () {
         success: function (res) {
             if (res['status'] == 'ok'){
                 localStorage.setItem('weatherToken', res['token'])
+            }
+        }
+    })
+
+    $.ajax({
+        url: `/getToken?token=${localStorage.getItem('weatherToken')}`,
+        type: 'GET',
+
+        success: function (res) {
+            for (const it of res.history) {
+                addHistory(it.city, it.temp, it.wind)
+                genIcon(it.weather, '.his-icon')
             }
         }
     })

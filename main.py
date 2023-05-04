@@ -7,6 +7,7 @@ from deep_translator import GoogleTranslator
 from model import db, User, History
 from urllib.parse import unquote
 from util import genToken
+from sqlalchemy import desc
 
 app = FastAPI()
 
@@ -55,6 +56,15 @@ def sendHome(data = Body()):
     return asyncio.run(main(city))
 
 
+@app.get('/getToken')
+def get_token(token):
+    query = db.query(History).filter(History.token == token).order_by(desc(History.id)).limit(4).all()
+
+    return {
+        'history': query
+    }
+
+
 @app.post('/setToken')
 def set_token(data = Body()):
     data = data.decode('UTF-8').split('=')
@@ -84,7 +94,7 @@ def set_history(data = Body()):
     arr_data = string_data.split('=')
     data = dict([(j, arr_data[((i * 2) + 1)]) for i, j in enumerate(arr_data[::2])])
 
-    his = History(city=data['city'], weather=data['weather'], temp=int(data['temp']), wind=float(data['wind']))
+    his = History(city=data['city'], weather=data['weather'], temp=int(data['temp']), wind=float(data['wind']), token=data['token'])
 
     db.add(his)
     db.commit()
