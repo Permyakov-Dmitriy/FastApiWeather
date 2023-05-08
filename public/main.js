@@ -34,7 +34,20 @@ let addHistory = (city, temp, wind, icon) => {
         `)
 }
 
+$(document).keydown(function(event) {
+    if (event.which == 13) {
+        $('input[type="submit"]').click()
+    }
+})
+
 $('input[type="submit"]').click(function(){
+
+    if ($('input[type="text"]').val() == ''){
+        $('.icon').html(`<i style='color:rgb(3 190 255)' class="bi bi-info-circle"></i>`)
+        $('#temp').html(`<p>Поле не должно быть пустым</p>`)
+        return null
+    }
+
     $.ajax({
         url: '/sendWeather',
         type: 'POST',
@@ -44,6 +57,12 @@ $('input[type="submit"]').click(function(){
             $('.icon').html(`<i class="bi spin bi-arrow-clockwise"></i>`)
             $('.icon').addClass('spin')
             $('#temp').html(`<p>Ожидание...</p>`)
+        },
+
+        error: function(xhr) {
+            $('.icon').removeClass('spin')
+            $('.icon').html(`<i style='color:orange' class="bi bi-exclamation-octagon"></i>`)
+            $('#temp').html(`<p>Ошибка: Неверное название города</p>`)
         },
 
         success: function(res) {
