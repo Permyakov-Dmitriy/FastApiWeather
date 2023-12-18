@@ -1,0 +1,6 @@
+uvicorn[standard]
+fastapi
+psycopg2
+sqlalchemy
+aiohttp
+deep_translator

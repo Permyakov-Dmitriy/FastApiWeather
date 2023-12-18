@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Body
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 import asyncio
 from aiohttp import ClientSession
 from deep_translator import GoogleTranslator

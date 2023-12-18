@@ -59,7 +59,8 @@ $('input[type="submit"]').click(function(){
             $('#temp').html(`<p>Ожидание...</p>`)
         },
 
-        error: function(xhr) {
+        error: function(xhr, error) {
+            console.log(error);
             $('.icon').removeClass('spin')
             $('.icon').html(`<i style='color:orange' class="bi bi-exclamation-octagon"></i>`)
             $('#temp').html(`<p>Ошибка: Неверное название города</p>`)

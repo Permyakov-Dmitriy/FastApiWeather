@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:ggwp@localhost/Weather"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:1234@postgres/weather"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
@@ -25,6 +25,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     token = Column(String)
+
 
 Base.metadata.create_all(bind=engine)
 
