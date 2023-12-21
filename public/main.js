@@ -49,7 +49,7 @@ $('input[type="submit"]').click(function(){
     }
 
     $.ajax({
-        url: '/sendWeather',
+        url: '/weather',
         type: 'POST',
         data: $('input[type="text"]').val(),
 
@@ -70,7 +70,7 @@ $('input[type="submit"]').click(function(){
             $('.icon').removeClass('spin')
 
             $('.icon').html(genIcon(res['Погода']))
-            
+
             $('#temp').html(`
             <div class='infoWeather'>
                     <div class='flex'><i class="bi bi-thermometer-half temp_icon"></i> <p>${res['Температура']}C˚</p></div>
@@ -90,19 +90,22 @@ $('input[type="submit"]').click(function(){
                 <p>Ветер: ${res['Ветер']}м/с</p>
             </div>
             `)
-            
-            $.ajax({
-                url: '/setHistory',
-                type: 'POST',
-                data: {
-                    'city': $('input[type="text"]').val(),
-                    'weather': res['Погода'],
-                    'temp': res['Температура'],
-                    'wind': res['Ветер'],
-                    'token': localStorage.getItem('weatherToken')
-                }
-            })
-            
+
+            fetch(`/history`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Token": localStorage.getItem('weatherToken')
+                },
+                body: JSON.stringify(
+                    {
+                        'city': $('input[type="text"]').val(),
+                        'weather': res['Погода'],
+                        'temp': res['Температура'],
+                        'wind': res['Ветер'],
+                    }
+                ),
+            });
         }
     })
 })
@@ -113,20 +116,16 @@ $('.history').on('click', '.history-h1', function() {
 })
 
 $(document).ready(function () {
-    $.ajax({
-        url: '/setToken',
-        type: 'POST',
-        data: {'token': localStorage.getItem('weatherToken') || 'None'},
-
-        success: function (res) {
-            if (res['status'] == 'ok'){
-                localStorage.setItem('weatherToken', res['token'])
-            }
-        }
-    })
+    fetch(`/token`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Token": localStorage.getItem('weatherToken') || 'None'
+        },
+    }).then(res => console.log(res))
 
     $.ajax({
-        url: `/getHistory?token=${localStorage.getItem('weatherToken')}`,
+        url: `/history?token=${localStorage.getItem('weatherToken')}`,
         type: 'GET',
 
         success: function (res) {

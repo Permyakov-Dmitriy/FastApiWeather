@@ -4,3 +4,4 @@ psycopg2
 sqlalchemy
 aiohttp
 deep_translator
+pydantic_settings
